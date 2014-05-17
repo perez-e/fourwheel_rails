@@ -9,4 +9,8 @@ class User < ActiveRecord::Base
 
   has_many :followers, through: :inward_follows, source: :follower
   has_many :followees, through: :outward_follows, source: :followee
+
+  has_many :comments
+  has_many :posts
+  
 end
