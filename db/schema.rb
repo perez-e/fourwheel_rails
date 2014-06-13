@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140517190409) do
+ActiveRecord::Schema.define(version: 20140613011122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,13 +30,13 @@ ActiveRecord::Schema.define(version: 20140517190409) do
 
   create_table "follows", force: true do |t|
     t.integer  "follower_id"
-    t.integer  "followee_id"
+    t.integer  "following_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "follows", ["followee_id"], name: "index_follows_on_followee_id", using: :btree
   add_index "follows", ["follower_id"], name: "index_follows_on_follower_id", using: :btree
+  add_index "follows", ["following_id"], name: "index_follows_on_following_id", using: :btree
 
   create_table "hashtags", force: true do |t|
     t.string   "title"
@@ -53,6 +53,15 @@ ActiveRecord::Schema.define(version: 20140517190409) do
   end
 
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
+
+  create_table "routes", force: true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "routes", ["user_id"], name: "index_routes_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -73,5 +82,15 @@ ActiveRecord::Schema.define(version: 20140517190409) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "waypoints", force: true do |t|
+    t.string   "lat"
+    t.string   "long"
+    t.integer  "route_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "waypoints", ["route_id"], name: "index_waypoints_on_route_id", using: :btree
 
 end

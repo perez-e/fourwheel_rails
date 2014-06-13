@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :inward_follows, class_name: 'Follow', foreign_key: 'followee_id'
+  has_many :inward_follows, class_name: 'Follow', foreign_key: 'following_id'
   has_many :outward_follows, class_name: 'Follow', foreign_key: 'follower_id'
 
   has_many :followers, through: :inward_follows, source: :follower
-  has_many :followees, through: :outward_follows, source: :followee
+  has_many :followings, through: :outward_follows, source: :followee
 
   has_many :comments
   has_many :posts
